@@ -1,0 +1,45 @@
+<div class="input-container">
+  <form (ngSubmit)="onSubmit()" class="input-form">
+    <div class="input-wrapper">
+      <input
+        type="text"
+        [(ngModel)]="message"
+        name="message"
+        placeholder="Type message"
+        class="message-input"
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="send-button"
+      [disabled]="!message.trim()"
+    >
+      <!-- Rainbow background -->
+      <div class="rainbow-background">
+        <div class="rainbow-stripe green-700"></div>
+        <div class="rainbow-stripe green-600"></div>
+        <div class="rainbow-stripe green-500"></div>
+        <div class="rainbow-stripe teal-500"></div>
+        <div class="rainbow-stripe blue-400"></div>
+        <div class="rainbow-stripe blue-500"></div>
+        <div class="rainbow-stripe blue-600"></div>
+        <div class="rainbow-stripe blue-700"></div>
+        <div class="rainbow-stripe red-700"></div>
+        <div class="rainbow-stripe red-600"></div>
+        <div class="rainbow-stripe orange-600"></div>
+        <div class="rainbow-stripe yellow-500"></div>
+      </div>
+
+      <!-- Icon -->
+      <div class="button-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </div>
+    </button>
+  </form>
+</div>

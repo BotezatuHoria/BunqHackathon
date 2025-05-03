@@ -1,0 +1,83 @@
+/* Chat input component specific styles */
+:host {
+  display: block;
+}
+
+.input-container {
+  border-top: 1px solid #333333;
+  padding: 0.75rem;
+  background-color: #1C1C1C;
+}
+
+.input-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input-wrapper {
+  flex: 1;
+  border-radius: 0.5rem;
+  background-color: #2D2D2D;
+  border: 1px solid #444444;
+  overflow: hidden;
+}
+
+.message-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: transparent;
+  outline: none;
+  color: white;
+  border: none;
+}
+
+.send-button {
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rainbow-background {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.rainbow-stripe {
+  height: 100%;
+  width: 8.333%;
+}
+
+.button-icon {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Rainbow colors for the send button */
+.green-700 { background-color: #15803d; }
+.green-600 { background-color: #16a34a; }
+.green-500 { background-color: #22c55e; }
+.teal-500 { background-color: #14b8a6; }
+.blue-400 { background-color: #60a5fa; }
+.blue-500 { background-color: #3b82f6; }
+.blue-600 { background-color: #2563eb; }
+.blue-700 { background-color: #1d4ed8; }
+.red-700 { background-color: #b91c1c; }
+.red-600 { background-color: #dc2626; }
+.orange-600 { background-color: #ea580c; }
+.yellow-500 { background-color: #eab308; }
