@@ -35,7 +35,7 @@ def make_payment_Iban(who,money,receiver_iban):
         return False
 
 def get_all_transactions(who):
-    api_contextSender = ApiContext.restore("fake_users/"+who+".conf")
+    api_contextSender = ApiContext.restore("fake_users/"+str(who)+".conf")
     BunqContext.load_api_context(api_contextSender)
     payments = PaymentApiObject.list().value
 
