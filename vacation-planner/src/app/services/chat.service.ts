@@ -37,7 +37,7 @@ export class ChatService {
 
         const botMessage: Message = {
           id: (Date.now() + 1).toString(),
-          content: response["prompt-answer"].toString(),
+          content: response["prompt-answer"]["response"]["trip_plan"]["accommodation"]["name"].toString(),
           role: "assistant",
         }
 
