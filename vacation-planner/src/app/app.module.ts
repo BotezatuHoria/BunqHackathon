@@ -14,6 +14,6 @@ import {CommonModule} from '@angular/common';
   declarations: [ ],
   imports: [InfoSectionComponent, SidebarComponent, ChatHeaderComponent, ChatInputComponent, CommonModule, BrowserModule, FormsModule],
   providers: [ChatService],
-  bootstrap: [AppComponent],
+  // bootstrap: [AppComponent],
 })
 export class AppModule {}
