@@ -45,8 +45,13 @@
             <div class="message-bubble"
                  [ngClass]="{'message-bubble-user': message.role === 'user', 'message-bubble-assistant': message.role === 'assistant'}">
               <p>{{ message.content }}</p>
+
+            <app-trip-plan *ngIf="message.tripPlan" [tripPlan]="message.tripPlan"></app-trip-plan>
+
             </div>
           </div>
+
+        <app-typing-indicator *ngIf="chatService.isLoading"></app-typing-indicator>
         </div>
       </ng-template>
     </div>
