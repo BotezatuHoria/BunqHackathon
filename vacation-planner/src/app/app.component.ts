@@ -5,6 +5,8 @@ import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {ChatHeaderComponent} from './components/chat-header/chat-header.component';
 import {ChatInputComponent} from './components/chat-input/chat-input.component';
 import {InfoSectionComponent} from './components/info-section/info-section.component';
+import {TripPlanComponent} from "./components/trip-plan/trip-plan.component";
+import {TypingIndicatorComponent} from "./components/typing-indicator/typing-indicator.component";
 
 
 @Component({
@@ -17,7 +19,9 @@ import {InfoSectionComponent} from './components/info-section/info-section.compo
     SidebarComponent,
     ChatHeaderComponent,
     ChatInputComponent,
-    InfoSectionComponent
+    InfoSectionComponent,
+    TripPlanComponent,
+    TypingIndicatorComponent
   ]
 })
 export class AppComponent {

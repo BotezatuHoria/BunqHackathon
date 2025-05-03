@@ -1,0 +1,113 @@
+.typing-indicator-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: flex-end;
+}
+
+.typing-indicator-bubble {
+  position: relative;
+  padding: 12px 16px;
+  background-color: #2D2D2D;
+  border-radius: 12px;
+  animation: rainbow-border 3s linear infinite;
+  overflow: hidden;
+
+  /* Rainbow border effect */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px; /* Border width */
+    border-radius: 12px;
+    background: linear-gradient(
+      to right,
+      #ff3366, /* Pink */
+      #ff9933, /* Orange */
+      #ffcc33, /* Yellow */
+      #33cc99, /* Teal */
+      #3399ff, /* Blue */
+      #9966ff  /* Purple */
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  margin-bottom: 4px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  animation: bounce 1.5s infinite;
+
+  &.dot-1 {
+    background-color: #ff3366; /* Pink */
+    animation-delay: 0s;
+  }
+
+  &.dot-2 {
+    background-color: #33cc99; /* Teal */
+    animation-delay: 0.2s;
+  }
+
+  &.dot-3 {
+    background-color: #3399ff; /* Blue */
+    animation-delay: 0.4s;
+  }
+}
+
+.typing-text {
+  font-size: 14px;
+  color: #ffffff;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+@keyframes bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes rainbow-border {
+  0% {
+    border-color: #ff3366;
+  }
+  16% {
+    border-color: #ff9933;
+  }
+  33% {
+    border-color: #ffcc33;
+  }
+  50% {
+    border-color: #33cc99;
+  }
+  66% {
+    border-color: #3399ff;
+  }
+  83% {
+    border-color: #9966ff;
+  }
+  100% {
+    border-color: #ff3366;
+  }
+}

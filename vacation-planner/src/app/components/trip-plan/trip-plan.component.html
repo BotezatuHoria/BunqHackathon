@@ -1,0 +1,263 @@
+<div class="trip-plan-card">
+  <!-- Header -->
+  <div class="trip-plan-header">
+    <div class="destination-container">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </svg>
+      <h2 class="destination">{{ tripPlan.trip_plan.destination || 'Your Trip' }} ✈️ 🌴</h2>
+    </div>
+    <div class="duration">
+      <span *ngIf="tripPlan.trip_plan.duration_days">{{ tripPlan.trip_plan.duration_days }} days</span>
+      <span *ngIf="tripPlan.trip_plan.duration_nights"> / {{ tripPlan.trip_plan.duration_nights }} nights</span>
+    </div>
+  </div>
+
+  <!-- Budget Overview -->
+  <div class="section">
+    <div class="section-header" (click)="setActiveSection('overview')">
+      <div class="section-title">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M16 8h-6.5a2.5 2.5 0 0 0 0 5h3a2.5 2.5 0 0 1 0 5H6"></path>
+          <path d="M12 18v2"></path>
+          <path d="M12 4v2"></path>
+        </svg>
+        <h3>Budget Overview 💰</h3>
+      </div>
+      <svg class="chevron" [class.rotate]="isSectionActive('overview')" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+
+    <div class="section-content" [class.active]="isSectionActive('overview')">
+      <div class="budget-container">
+        <div class="budget-item">
+          <div class="budget-label">Total Budget</div>
+          <div class="budget-value">{{ tripPlan.trip_plan.budget | currency }}</div>
+        </div>
+
+        <div class="budget-item">
+          <div class="budget-label">Estimated Cost</div>
+          <div class="budget-value" *ngIf="tripPlan.trip_plan.total_estimated_cost_range.min && tripPlan.trip_plan.total_estimated_cost_range.max">
+            {{ tripPlan.trip_plan.total_estimated_cost_range.min | currency }} - {{ tripPlan.trip_plan.total_estimated_cost_range.max | currency }}
+          </div>
+        </div>
+
+        <div class="budget-item">
+          <div class="budget-label">Current Savings</div>
+          <div class="budget-value">{{ tripPlan.trip_plan.current_savings | currency }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accommodation -->
+  <div class="section">
+    <div class="section-header" (click)="setActiveSection('accommodation')">
+      <div class="section-title">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 7v11m0-7h18m0-4v11m-9-7v7"></path>
+          <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+        </svg>
+        <h3>Accommodation 🏨</h3>
+      </div>
+      <svg class="chevron" [class.rotate]="isSectionActive('accommodation')" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+
+    <div class="section-content" [class.active]="isSectionActive('accommodation')">
+      <div class="accommodation-details" *ngIf="tripPlan.trip_plan.accommodation.name">
+        <div class="accommodation-name">
+          <a [href]="tripPlan.trip_plan.accommodation.link" target="_blank" class="link">
+            {{ tripPlan.trip_plan.accommodation.name }}
+          </a>
+        </div>
+
+        <div class="cost-details">
+          <div class="cost-item" *ngIf="tripPlan.trip_plan.accommodation.cost_per_night">
+            <div class="cost-label">Per Night</div>
+            <div class="cost-value">{{ tripPlan.trip_plan.accommodation.cost_per_night | currency }}</div>
+          </div>
+
+          <div class="cost-item" *ngIf="tripPlan.trip_plan.accommodation.total_cost">
+            <div class="cost-label">Total</div>
+            <div class="cost-value">{{ tripPlan.trip_plan.accommodation.total_cost | currency }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="empty-state" *ngIf="!tripPlan.trip_plan.accommodation.name">
+        No accommodation details available yet
+      </div>
+    </div>
+  </div>
+
+  <!-- Transportation -->
+  <div class="section">
+    <div class="section-header" (click)="setActiveSection('transportation')">
+      <div class="section-title">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 17h4v1.5A1.5 1.5 0 0 1 5.5 20h-1A1.5 1.5 0 0 1 3 18.5zm0-6h18"></path>
+          <path d="M3 8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v9.5a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5zm0 0h18"></path>
+          <path d="M17 17h4v1.5a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5z"></path>
+        </svg>
+        <h3>Transportation 🚆 ✈️</h3>
+      </div>
+      <svg class="chevron" [class.rotate]="isSectionActive('transportation')" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+
+    <div class="section-content" [class.active]="isSectionActive('transportation')">
+      <div class="transportation-details">
+        <div class="airports" *ngIf="tripPlan.trip_plan.transportation.departure_airport || tripPlan.trip_plan.transportation.arrival_airport">
+          <div class="airport-route">
+            <span>{{ tripPlan.trip_plan.transportation.departure_airport || 'Departure' }}</span>
+            <svg class="route-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+            <span>{{ tripPlan.trip_plan.transportation.arrival_airport || 'Arrival' }}</span>
+          </div>
+        </div>
+
+        <div class="airlines" *ngIf="tripPlan.trip_plan.transportation.suggested_airlines.length > 0">
+          <div class="airlines-label">Suggested Airlines:</div>
+          <ul class="airlines-list">
+            <li *ngFor="let airline of tripPlan.trip_plan.transportation.suggested_airlines">
+              <a [href]="airline.link" target="_blank" class="link">{{ airline.name }}</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="cost-range" *ngIf="tripPlan.trip_plan.transportation.estimated_cost_range.min && tripPlan.trip_plan.transportation.estimated_cost_range.max">
+          <div class="cost-label">Estimated Cost:</div>
+          <div class="cost-value">
+            {{ tripPlan.trip_plan.transportation.estimated_cost_range.min | currency }} -
+            {{ tripPlan.trip_plan.transportation.estimated_cost_range.max | currency }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activities & Food -->
+  <div class="section">
+    <div class="section-header" (click)="setActiveSection('activities')">
+      <div class="section-title">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 18L5 21l-2-3 3-3 2 3z"></path>
+          <path d="M16.5 9L14 11.5l-1-1-4 4 1 1-3 3 2 3 3-3 1 1 4-4-1-1L18.5 11"></path>
+          <path d="M15 4l-3-3-3 3 3 3 3-3z"></path>
+          <path d="M18 8l3 3-3 3-3-3 3-3z"></path>
+        </svg>
+        <h3>Activities & Food 🏄‍♂️ 🍽️</h3>
+      </div>
+      <svg class="chevron" [class.rotate]="isSectionActive('activities')" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+
+    <div class="section-content" [class.active]="isSectionActive('activities')">
+      <div class="daily-cost" *ngIf="tripPlan.trip_plan.activities_and_food.daily_cost_range.min && tripPlan.trip_plan.activities_and_food.daily_cost_range.max">
+        <div class="cost-label">Daily Budget:</div>
+        <div class="cost-value">
+          {{ tripPlan.trip_plan.activities_and_food.daily_cost_range.min | currency }} -
+          {{ tripPlan.trip_plan.activities_and_food.daily_cost_range.max | currency }}
+        </div>
+      </div>
+
+      <div class="activities-section" *ngIf="tripPlan.trip_plan.activities_and_food.suggested_activities.length > 0">
+        <h4 class="subsection-title">
+          <svg class="mini-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 11v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1z"></path>
+            <path d="M14 10V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1z"></path>
+            <path d="M21 12v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1z"></path>
+          </svg>
+          Suggested Activities 🏊‍♀️
+        </h4>
+        <ul class="list">
+          <li *ngFor="let activity of tripPlan.trip_plan.activities_and_food.suggested_activities">
+            {{ activity }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="food-section" *ngIf="tripPlan.trip_plan.activities_and_food.suggested_foods.length > 0">
+        <h4 class="subsection-title">
+          <svg class="mini-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 10h10"></path>
+            <path d="M7 14h10"></path>
+            <circle cx="12" cy="12" r="10"></circle>
+          </svg>
+          Must-Try Foods 🍕
+        </h4>
+        <ul class="list">
+          <li *ngFor="let food of tripPlan.trip_plan.activities_and_food.suggested_foods">
+            {{ food }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div class="section">
+    <div class="section-header" (click)="setActiveSection('tips')">
+      <div class="section-title">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v8"></path>
+          <path d="m16 6-4 4-4-4"></path>
+          <path d="M8 16h8"></path>
+          <path d="M12 12v6"></path>
+        </svg>
+        <h3>Tips & Adjustments 💡</h3>
+      </div>
+      <svg class="chevron" [class.rotate]="isSectionActive('tips')" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </div>
+
+    <div class="section-content" [class.active]="isSectionActive('tips')">
+      <div class="tips-section" *ngIf="tripPlan.trip_plan.budget_adjustments.length > 0">
+        <h4 class="subsection-title">
+          <svg class="mini-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v8"></path>
+            <path d="m16 6-4 4-4-4"></path>
+            <path d="M8 16h8"></path>
+            <path d="M12 12v6"></path>
+          </svg>
+          Budget Adjustments 💰
+        </h4>
+        <ul class="list">
+          <li *ngFor="let adjustment of tripPlan.trip_plan.budget_adjustments">
+            {{ adjustment }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="tips-section" *ngIf="tripPlan.trip_plan.additional_tips.length > 0">
+        <h4 class="subsection-title">
+          <svg class="mini-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          Additional Tips 💭
+        </h4>
+        <ul class="list">
+          <li *ngFor="let tip of tripPlan.trip_plan.additional_tips">
+            {{ tip }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Celebration message at the bottom -->
+  <div class="celebration">
+    That's your trip plan, bon voyage! 🎉
+  </div>
+</div>
