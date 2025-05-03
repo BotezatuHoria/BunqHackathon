@@ -1,0 +1,28 @@
+<div class="info-section">
+  <div class="section-header">
+    <!-- Message Square Icon -->
+    <svg *ngIf="icon === 'message-square'" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+
+    <!-- Sparkles Icon -->
+    <svg *ngIf="icon === 'sparkles'" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v3m0 12v3m-9-9h3m12 0h3m-2.5-6.5-2 2m-9 9-2 2m11-2 2 2m-9-11-2-2"></path>
+    </svg>
+
+    <!-- Shield Alert Icon -->
+    <svg *ngIf="icon === 'shield-alert'" class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      <path d="M12 8v4"></path>
+      <path d="M12 16h.01"></path>
+    </svg>
+
+    <h2 class="section-title">{{ title }}</h2>
+  </div>
+
+  <div class="section-items">
+    <div *ngFor="let item of items" class="section-item">
+      {{ item.text }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="chat-container">
+  <app-sidebar
+    [isOpen]="isMobileSidebarOpen"
+    (close)="closeMobileSidebar()">
+  </app-sidebar>
+
+  <div class="chat-main">
+    <app-chat-header (menuClick)="toggleMobileSidebar()"></app-chat-header>
+
+    <div class="chat-content">
+      <ng-container *ngIf="chatService.messages.length === 0; else chatMessages">
+        <div class="welcome-container">
+          <div class="max-w-4xl w-full">
+            <div class="info-grid">
+              <app-info-section
+                icon="message-square"
+                title="Examples"
+                [items]="examples">
+              </app-info-section>
+
+              <app-info-section
+                icon="sparkles"
+                title="Capabilities"
+                [items]="capabilities">
+              </app-info-section>
+
+              <app-info-section
+                icon="shield-alert"
+                title="Limitations"
+                [items]="limitations">
+              </app-info-section>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #chatMessages>
+        <div class="space-y-4">
+          <div *ngFor="let message of chatService.messages"
+               class="message-container"
+               [ngClass]="{'message-user': message.role === 'user', 'message-assistant': message.role === 'assistant'}">
+            <div class="message-bubble"
+                 [ngClass]="{'message-bubble-user': message.role === 'user', 'message-bubble-assistant': message.role === 'assistant'}">
+              <p>{{ message.content }}</p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+    <app-chat-input (sendMessage)="handleSendMessage($event)"></app-chat-input>
+  </div>
+</div>
