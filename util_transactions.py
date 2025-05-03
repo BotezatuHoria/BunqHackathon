@@ -224,15 +224,15 @@ def get_user_details(who):
 # increase_transaction_limit("1880854","200000")
 # increase_transaction_limit("1882147","201000")
 
-print(get_daily_transaction_limit("1880854").value)
-print(get_daily_transaction_limit("1882147").value)
+#print(get_daily_transaction_limit("1880854").value)
+#print(get_daily_transaction_limit("1882147").value)
 #make_payment_Email("1880854","20","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Wine, Rotterdam")
 #make_payment_Email("1880854","45","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","12 Beers at Constanta, Romania")
 #make_payment_Email("1880854","12","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Sun glassses at Costinesti Romania")
 #make_payment_Email("1880854","100","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Aperol at Vama Veche, Romania")
 # make_payment_Email("1880854","50","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Femei")
 #make_payment_Email("1880854","10","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Water at Madrid, Spain The best one!")
-make_payment_Email("1880854","10","test+f6e28c0a-c19d-4e03-88b7-e45ffae9e11c@bunq.com","Ice cream, Madrid")
+#make_payment_Email("1880854","10","test+f6e28c0a-c19d-4e03-88b7-e45ffae9e11c@bunq.com","Ice cream, Madrid")
 #make_payment_Iban("1880854","1","NL34BUNQ2090681969","Marlana Rae","Water at Madrid, Spain The best one!")
 #get_user_details("1880854")
 
@@ -245,6 +245,6 @@ def get_all_aliases(who):
 
 #get_all_aliases("1882147")
 
-get_user_balance("1882147") #1882147 Mihaita
-get_user_balance("1880854") #1880854 David
+#get_user_balance("1882147") #1882147 Mihaita
+#get_user_balance("1880854") #1880854 David
 #get_user_balance_from_user_api("sandbox_d199e92eb4646fce5b3ced92b2d8fc0c062fa389084c988a0bd7fdb0") #1880854 David
