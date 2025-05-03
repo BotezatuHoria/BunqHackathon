@@ -1,0 +1,78 @@
+<!-- Mobile Overlay -->
+<div *ngIf="isOpen && isMobile"
+     class="mobile-overlay"
+     (click)="close.emit()">
+</div>
+
+<!-- Mobile Sidebar -->
+<div *ngIf="isMobile"
+     class="mobile-sidebar"
+     [ngClass]="{'closed': !isOpen}">
+  <div class="sidebar-header">
+    <div></div>
+    <button class="close-button" (click)="close.emit()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+  <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+</div>
+
+<!-- Desktop Sidebar -->
+<div *ngIf="!isMobile" class="desktop-sidebar">
+  <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+</div>
+
+<!-- Sidebar Content Template -->
+<ng-template #sidebarContent>
+  <div class="sidebar-content">
+    <button class="new-chat-button">
+      <!-- Rainbow background -->
+      <div class="rainbow-background">
+        <div class="rainbow-stripe green-700"></div>
+        <div class="rainbow-stripe green-600"></div>
+        <div class="rainbow-stripe green-500"></div>
+        <div class="rainbow-stripe teal-500"></div>
+        <div class="rainbow-stripe blue-400"></div>
+        <div class="rainbow-stripe blue-500"></div>
+        <div class="rainbow-stripe blue-600"></div>
+        <div class="rainbow-stripe blue-700"></div>
+        <div class="rainbow-stripe red-700"></div>
+        <div class="rainbow-stripe red-600"></div>
+        <div class="rainbow-stripe orange-600"></div>
+        <div class="rainbow-stripe yellow-500"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="button-content">
+        <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        New chat
+      </div>
+    </button>
+
+    <div class="chat-list">
+      <div class="space-y-1">
+        <div *ngFor="let chat of chatHistory" class="chat-item">
+          <button class="chat-button">
+            <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            {{ chat.title }}
+          </button>
+          <button class="remove-button"
+                  (click)="removeChat(chat.id)">
+            <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
