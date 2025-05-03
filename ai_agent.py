@@ -58,7 +58,9 @@ trip_plan_template = {
 }
 
 
-def get_agent_answer(transactions, persona_data, prompt) :
+def get_agent_answer(transactions, persona_data, prompt, message_history=None) :
+  if message_history is None:
+      message_history = []
   system_prompt = (
     "You are a travel assistant that helps users plan budget-conscious vacations. "
     "You consider the user's recent transactions, financial behavior, current savings, and travel preferences. "
@@ -77,13 +79,12 @@ def get_agent_answer(transactions, persona_data, prompt) :
       Prompt:
       {prompt}
       """
+  message_history.append({"role": "system", "content": system_prompt})
+  message_history.append({"role": "user", "content": user_content})
 
   completion = client.chat.completions.create(
     model="meta/llama-3.3-70b-instruct",
-    messages=[
-      {"role": "system", "content": system_prompt},
-      {"role": "user", "content": user_content}
-    ],
+    messages=message_history,
     temperature=0.2,
     top_p=0.7,
     max_tokens=1024,
