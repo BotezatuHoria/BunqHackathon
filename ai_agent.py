@@ -90,14 +90,17 @@ def get_agent_answer(transactions, persona_data, prompt) :
     stream=True,
   )
 
-  response_text = ""
-  for chunk in completion:
-    if chunk.choices[0].delta.content is not None:
-      response_text += chunk.choices[0].delta.content
+  try :
+      response_text = ""
+      for chunk in completion:
+        if chunk.choices[0].delta.content is not None:
+          response_text += chunk.choices[0].delta.content
 
-  parsed_dict = ast.literal_eval(response_text)
+      parsed_dict = ast.literal_eval(response_text)
 
-  # Now it's a proper Python dict
-  print(parsed_dict)
+      # Now it's a proper Python dict
+      print(parsed_dict)
 
-  return {"response": parsed_dict}
+      return {"response": parsed_dict}
+  except :
+      return {"response" : None}
