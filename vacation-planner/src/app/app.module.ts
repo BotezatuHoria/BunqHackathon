@@ -9,10 +9,11 @@ import { ChatInputComponent } from "./components/chat-input/chat-input.component
 import { InfoSectionComponent } from "./components/info-section/info-section.component"
 import { ChatService } from "./services/chat.service"
 import {CommonModule} from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [ ],
-  imports: [InfoSectionComponent, SidebarComponent, ChatHeaderComponent, ChatInputComponent, CommonModule, BrowserModule, FormsModule],
+  imports: [InfoSectionComponent, SidebarComponent, ChatHeaderComponent, ChatInputComponent, CommonModule, BrowserModule, FormsModule, HttpClientModule],
   providers: [ChatService],
   // bootstrap: [AppComponent],
 })

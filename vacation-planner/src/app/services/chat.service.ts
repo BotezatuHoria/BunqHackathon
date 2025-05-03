@@ -1,4 +1,6 @@
 import { Injectable } from "@angular/core"
+import { HttpClient } from "@angular/common/http"
+import { Observable } from "rxjs"
 
 interface Message {
   id: string
@@ -12,10 +14,14 @@ interface Message {
 export class ChatService {
   messages: Message[] = []
 
+  private userId = 1880854
+  private backendUrl = `http://127.0.0.1:8000/users/${this.userId}/transactions`
+
+  constructor(private http: HttpClient) {}
+
   sendMessage(content: string): void {
     if (!content.trim()) return
 
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       content,
@@ -24,15 +30,36 @@ export class ChatService {
 
     this.messages = [...this.messages, userMessage]
 
-    // Simulate bot response after a short delay
-    setTimeout(() => {
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: "I'm your vacation planning assistant. How can I help you plan your next trip?",
-        role: "assistant",
-      }
+    this.fetchTransactions(content).subscribe(
+      (response: any) => {
+        console.log("Response from backend:", response) // 👈 print raw response
+        console.log("Coaie", response["prompt-answer"]["response"]["trip_plan"]["accommodation"]["name"].toString())
 
-      this.messages = [...this.messages, botMessage]
-    }, 1000)
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          content: response["prompt-answer"]["response"]["trip_plan"]["accommodation"]["name"].toString(),
+          role: "assistant",
+        }
+
+        this.messages = [...this.messages, botMessage]
+      },
+      (error) => {
+        console.error("Error fetching transactions:", error) // 👈 print error
+
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          content: `Failed to fetch transactions: ${error.message}`,
+          role: "assistant",
+        }
+
+        this.messages = [...this.messages, botMessage]
+      }
+    )
+  }
+
+
+  private fetchTransactions(prompt: string): Observable<any> {
+    const body = { "prompt" : prompt }
+    return this.http.post(this.backendUrl, body)
   }
 }
