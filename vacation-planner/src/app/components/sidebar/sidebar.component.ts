@@ -45,4 +45,11 @@ export class SidebarComponent implements AfterViewInit {
   removeChat(id: number): void {
     this.chatHistory = this.chatHistory.filter((chat) => chat.id !== id);
   }
+
+  addNewChat(): void {
+    const newId = this.chatHistory.length > 0
+      ? Math.max(...this.chatHistory.map(c => c.id)) + 1
+      : 1;
+    this.chatHistory.push({ id: newId, title: 'New chat' });
+  }
 }
