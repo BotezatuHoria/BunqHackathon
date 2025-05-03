@@ -21,13 +21,13 @@ def make_payment_Email(who,money,receiver_email,description):
         print(f"❌ Error making payment: {e}")
         return False
 
-def make_payment_Iban(who,money,receiver_iban,description):
+def make_payment_Iban(who,money,receiver_iban,receiver_name,description):
     api_contextSender = ApiContext.restore("fake_users/"+who+".conf")
     BunqContext.load_api_context(api_contextSender)
     try:
         payment = PaymentApiObject.create(
             amount=AmountObject(money, "EUR"),
-            counterparty_alias=PointerObject("IBAN", receiver_iban),
+            counterparty_alias=PointerObject(type_="IBAN", value=receiver_iban, name=receiver_name),
             description=description
         ).value
         return True
@@ -88,6 +88,34 @@ def create_money_request_from_user_api(user_api, to_email, amount_eur, descripti
 
     print("✅ Money request created!")
     return True
+
+
+def get_daily_transaction_limit(who):
+    # Load the user's API context
+    api_context = ApiContext.restore(f"fake_users/{who}.conf")
+    BunqContext.load_api_context(api_context)
+
+    # Get the primary monetary account
+    account = BunqContext.user_context().primary_monetary_account
+
+    # Access the daily limit
+    daily_limit = account.daily_limit
+    print(account.overdraft_limit.value)
+    return daily_limit
+
+def increase_transaction_limit(who, new_limit="2000.00"):
+    api_context = ApiContext.restore(f"fake_users/{who}.conf")
+    BunqContext.load_api_context(api_context)
+
+    user_id=BunqContext.user_context().user_id
+    account_id = BunqContext.user_context().primary_monetary_account.id_
+
+    updated = MonetaryAccountBankApiObject.update(
+        monetary_account_bank_id=account_id,
+        daily_limit=AmountObject(new_limit, "EUR")
+    )
+
+    print(f"✅ Updated transaction limit to {new_limit} EUR for {who}")
 
 def create_money_request(who, to_email, amount_eur, description="Please pay me"):
     api_contextSender = ApiContext.restore("fake_users/"+who+".conf")
@@ -189,20 +217,34 @@ def get_user_details(who):
 
 #create_money_request_from_user_api("sandbox_d199e92eb4646fce5b3ced92b2d8fc0c062fa389084c988a0bd7fdb0","sugardaddy@bunq.com","5")
 
-# create_money_request_from_user_api("sandbox_8dc8c6f8016266a027acf022ff568aadc4c1dc307148493406f8af54","sugardaddy@bunq.com","2")
+#create_money_request_from_user_api("sandbox_d199e92eb4646fce5b3ced92b2d8fc0c062fa389084c988a0bd7fdb0","sugardaddy@bunq.com","60")
 #create_money_request("1880854","sugardaddy@bunq.com","2")
 # create_money_request("1880854","sugardaddy@bunq.com","2")
 
+# increase_transaction_limit("1880854","200000")
+# increase_transaction_limit("1882147","201000")
 
+#print(get_daily_transaction_limit("1880854").value)
+#print(get_daily_transaction_limit("1882147").value)
 #make_payment_Email("1880854","20","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Wine, Rotterdam")
 #make_payment_Email("1880854","45","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","12 Beers at Constanta, Romania")
 #make_payment_Email("1880854","12","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Sun glassses at Costinesti Romania")
 #make_payment_Email("1880854","100","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Aperol at Vama Veche, Romania")
 # make_payment_Email("1880854","50","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Femei")
-make_payment_Email("1880854","10","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Spritz (wine+water) at Mangalia, Romania")
-# make_payment_Email("1880854","10","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Coffee at Sofia, Bulgaria")
-
+#make_payment_Email("1880854","10","test+c4eb6b86-8652-4049-a2ec-eb7e741f5ae1@bunq.com","Water at Madrid, Spain The best one!")
+#make_payment_Email("1880854","10","test+f6e28c0a-c19d-4e03-88b7-e45ffae9e11c@bunq.com","Ice cream, Madrid")
+#make_payment_Iban("1880854","1","NL34BUNQ2090681969","Marlana Rae","Water at Madrid, Spain The best one!")
 #get_user_details("1880854")
-get_user_balance("1882147") #1882147 Mihaita
-get_user_balance("1880854") #1880854 David
+
+def get_all_aliases(who):
+    api_context = ApiContext.restore(f"fake_users/{who}.conf")
+    BunqContext.load_api_context(api_context)
+    aliases = BunqContext.user_context().primary_monetary_account.alias
+    for alias in aliases:
+        print(f"{alias.type_}: {alias.value}")
+
+#get_all_aliases("1882147")
+
+#get_user_balance("1882147") #1882147 Mihaita
+#get_user_balance("1880854") #1880854 David
 #get_user_balance_from_user_api("sandbox_d199e92eb4646fce5b3ced92b2d8fc0c062fa389084c988a0bd7fdb0") #1880854 David

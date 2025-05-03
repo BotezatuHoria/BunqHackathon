@@ -8,7 +8,7 @@ def generate_conf(api_key,name):
         api_key,
         name
     )
-    api_context.save(name+"_bunq.conf")
+    api_context.save(name+".conf")
     print("✅ saved")
 
-generate_conf("sandbox_d199e92eb4646fce5b3ced92b2d8fc0c062fa389084c988a0bd7fdb0","David")
+generate_conf("sandbox_0e43e831578732ca1624aeb2c57e2e1c8ad7c3526ebf5ba0aa44189d","1883393")

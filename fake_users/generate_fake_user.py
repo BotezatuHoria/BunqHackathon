@@ -44,4 +44,4 @@ def generate_fake_user(name:str):
     api_context.save(name+"_bunq.conf")
     print(name+" generated")
 
-#generate_fake_user("Gigel Ionut")
+generate_fake_user("Gigel Ionut")

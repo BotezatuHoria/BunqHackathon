@@ -57,11 +57,45 @@ trip_plan_template = {
         "additional_tips": [""]
     }
 }
+def detect_modification(user_prompt, last_response):
+    modifier_prompt = (
+        "You are a modification detector AI. The user may want to change part of a previously generated JSON vacation plan. "
+        "Given the old plan and the new user prompt, identify only what needs to be changed. "
+        "Reply in JSON with fields to update. If it's not a modification, return {{'modification': False}}.\n\n"
+        f"Old Plan:\n{json.dumps(last_response, indent=2)}\n\n"
+        f"User Prompt:\n{user_prompt}\n\n"
+        "Respond with JSON only, no explanations."
+    )
 
+    completion = client.chat.completions.create(
+        model="meta/llama-3.3-70b-instruct",
+        messages=[
+            {"role": "user", "content": modifier_prompt}
+        ],
+        temperature=0.3,
+        top_p=0.7,
+        max_tokens=512,
+    )
 
-def get_agent_answer(transactions, persona_data, prompt, message_history=None, last_response=None):
-    if message_history is None:
-        message_history = []
+    result = completion.choices[0].message.content.strip()
+    try:
+        parsed = ast.literal_eval(result)
+        return parsed
+    except Exception as e:
+        print("Modifier parsing failed:", e)
+        return {"modification": False}
+
+last_response=None
+
+def has_last_response():
+    global last_response
+    return last_response
+
+def get_agent_answer(transactions, persona_data, prompt, message_history=None):
+    global last_response
+    # if message_history is None:
+    message_history = []
+    print("getting answer")
 
     # Only add the system prompt if it's not already there
     system_prompt = (
@@ -74,11 +108,10 @@ def get_agent_answer(transactions, persona_data, prompt, message_history=None, l
         f"{trip_plan_template} "
         "Avoid markdown, quotes, or escape characters in your response. Respond with raw JSON only."
     )
-
+    # Context:
+    # {message_history}
     # Construct and add new user input
     user_content = f"""
-    Context:
-    {message_history}
     
     Persona:
     {persona_data}
@@ -102,17 +135,28 @@ def get_agent_answer(transactions, persona_data, prompt, message_history=None, l
         stream=True,
     )
 
+    print("completion create")
+
+    response_text = ""
+    for chunk in completion:
+        if chunk.choices[0].delta.content is not None:
+            response_text += chunk.choices[0].delta.content
+
     try:
-        response_text = ""
-        for chunk in completion:
-            if chunk.choices[0].delta.content is not None:
-                response_text += chunk.choices[0].delta.content
-
-        parsed_dict = ast.literal_eval(response_text)
+        print("before parsing")
+        parsed_dict =ast.literal_eval(response_text)
+        print("after parsing")
         print(parsed_dict)
-
-        return {"response": parsed_dict}
-
+        #ans=parsed_dict #{"response": parsed_dict}
+        #last_response=ans
+        if "response" in parsed_dict:
+            last_response = parsed_dict
+        else:
+            last_response = {"response": parsed_dict}
+        print("finishing")
+        ans=last_response
+        return ans
     except Exception as e:
         print("Parsing failed:", e)
-        return {"response": None, "message_history": message_history}
+        last_response=None
+        return {"response": None}
