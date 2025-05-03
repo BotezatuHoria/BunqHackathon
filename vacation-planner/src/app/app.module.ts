@@ -15,6 +15,6 @@ import {HttpClientModule} from '@angular/common/http';
   declarations: [ ],
   imports: [InfoSectionComponent, SidebarComponent, ChatHeaderComponent, ChatInputComponent, CommonModule, BrowserModule, FormsModule, HttpClientModule],
   providers: [ChatService],
-  bootstrap: [AppComponent],
+  // bootstrap: [AppComponent],
 })
 export class AppModule {}
