@@ -11,6 +11,9 @@
       <ng-container *ngIf="chatService.messages.length === 0; else chatMessages">
         <div class="welcome-container">
           <div class="max-w-4xl w-full">
+            <div class="welcome-banner">
+                <h2>Welcome to your personal vacation planner — powered by <strong>bunq</strong> 🌈</h2>
+            </div>
             <div class="info-grid">
               <app-info-section
                 icon="message-square"
