@@ -75,8 +75,11 @@ Once you share your initial thoughts—like ***“I want a warm place by the bea
 
 Maybe you’re in the mood for a quick city break in Bucharest — just let **Finn - Vacation Planner** know, and watch it suggest the best options for flights, stays, and things to do.
 ![Alt text](assets/Screenshot 2025-05-03 151408.png)
+
 ![Alt text](assets/Screenshot 2025-05-03 151503.png)
+
 ![Alt text](assets/Screenshot 2025-05-03 151518.png)
+
 ![Alt text](assets/Screenshot 2025-05-03 151642.png)
 
 Want to refine your experience further? No problem! You can continue chatting with **Finn - Vacation Planner** to:
