@@ -3,8 +3,8 @@ from bunq import ApiEnvironmentType
 
 api_context = ApiContext.create(
     ApiEnvironmentType.SANDBOX,
-    "sandbox_d199e92eb4646fce5b3ced92b2d8fc0c062fa389084c988a0bd7fdb0",
+    "sandbox_8dc8c6f8016266a027acf022ff568aadc4c1dc307148493406f8af54",
     "My Python Device"
 )
-api_context.save("bunq.conf")
+#api_context.save("bunq.conf")
 print("✅ API context saved")
