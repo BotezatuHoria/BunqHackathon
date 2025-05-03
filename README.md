@@ -16,6 +16,7 @@ Aren’t you tired of endlessly browsing the internet trying to find your next h
 ![Alt text](assets/image1.png)
 **Finn - Vacation Planner** analyzes your financial data, understands your travel desires through natural conversation, and offers travel suggestions that match your lifestyle. And it works seamlessly on both **desktop and mobile**.
 
+![Alt text](assets/ss0.png)
 ---
 
 ## 🧠 Tech Stack
@@ -72,15 +73,16 @@ On the left side, you’ll find your **chat history**, so you can revisit past t
 
 Once you share your initial thoughts—like ***“I want a warm place by the beach with my family”***— **Finn - Vacation Planner** quickly analyzes your budget and preferences, and gives you a curated travel plan.
 
+![Alt text](assets/fuerte.png)
 
 Maybe you’re in the mood for a quick city break in Bucharest — just let **Finn - Vacation Planner** know, and watch it suggest the best options for flights, stays, and things to do.
-![Alt text](assets/Screenshot 2025-05-03 151408.png)
+![Alt text](assets/ss8.png)
 
-![Alt text](assets/Screenshot 2025-05-03 151503.png)
+![Alt text](assets/ss8.png)
 
-![Alt text](assets/Screenshot 2025-05-03 151518.png)
+![Alt text](assets/ss4.png)
 
-![Alt text](assets/Screenshot 2025-05-03 151642.png)
+![Alt text](assets/ss5.png)
 
 Want to refine your experience further? No problem! You can continue chatting with **Finn - Vacation Planner** to:
 
