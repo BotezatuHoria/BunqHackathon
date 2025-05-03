@@ -30,18 +30,22 @@ export class ChatService {
 
     this.messages = [...this.messages, userMessage]
 
-    // POST the user's message to backend
     this.fetchTransactions(content).subscribe(
       (response: any) => {
+        console.log("Response from backend:", response) // 👈 print raw response
+        console.log("Coaie", response["prompt-answer"]["response"]["trip_plan"]["accommodation"]["name"].toString())
+
         const botMessage: Message = {
           id: (Date.now() + 1).toString(),
-          content: response.reply ?? `Received ${response.length} transactions.`, // Customize depending on your backend response
+          content: response["prompt-answer"]["response"]["trip_plan"]["accommodation"]["name"].toString(),
           role: "assistant",
         }
 
         this.messages = [...this.messages, botMessage]
       },
       (error) => {
+        console.error("Error fetching transactions:", error) // 👈 print error
+
         const botMessage: Message = {
           id: (Date.now() + 1).toString(),
           content: `Failed to fetch transactions: ${error.message}`,
@@ -53,8 +57,9 @@ export class ChatService {
     )
   }
 
+
   private fetchTransactions(prompt: string): Observable<any> {
-    const body = { prompt }
+    const body = { "prompt" : prompt }
     return this.http.post(this.backendUrl, body)
   }
 }
