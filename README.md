@@ -34,7 +34,7 @@ Aren’t you tired of endlessly browsing the internet trying to find your next h
 
 ### 1. Install frontend dependencies
 
-Make sure you’re in the frontend directory, then run:
+Make sure you’re in the frontend directory (`vacation-planner/`), then run:
 
 ```bash
 npm install
