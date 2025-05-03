@@ -2,15 +2,15 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import os
 import json
-import  ast
+import ast
 
 load_dotenv()
 
 nvidia_key = os.getenv("NVIDIA_KEY")
 
 client = OpenAI(
-  base_url = "https://integrate.api.nvidia.com/v1",
-  api_key = nvidia_key
+    base_url="https://integrate.api.nvidia.com/v1",
+    api_key=nvidia_key
 )
 
 trip_plan_template = {
@@ -19,6 +19,7 @@ trip_plan_template = {
         "duration_days": None,
         "duration_nights": None,
         "budget": None,
+        "current_account_balance": None,
         "current_savings": None,
         "accommodation": {
             "name": "",
@@ -58,50 +59,60 @@ trip_plan_template = {
 }
 
 
-def get_agent_answer(transactions, persona_data, prompt, message_history=None) :
-  if message_history is None:
-      message_history = []
-  system_prompt = (
-    "You are a travel assistant that helps users plan budget-conscious vacations. "
-    "You consider the user's recent transactions, financial behavior, current savings, and travel preferences. "
-    "Offer realistic suggestions for destinations, links to hotels, costs, number of days, and transportation (plane tickets with links). "
-    "Tailor it to the user profile and finances."
-    f"When sending the answer do not include any markdown formatting, quotes, or escape characters. Respond with raw JSON only.:{trip_plan_template}"
-  )
+def get_agent_answer(transactions, persona_data, prompt, message_history=None, last_response=None):
+    if message_history is None:
+        message_history = []
 
-  user_content = f"""
-      Persona:
-      {persona_data}
+    # Only add the system prompt if it's not already there
+    system_prompt = (
+        "You are a travel assistant that helps users plan budget-conscious vacations. "
+        "You consider the user's recent transactions, financial behavior, current savings, and travel preferences. "
+        "Offer realistic and financially sound suggestions for destinations, including number of days and nights, total cost estimates, and budget tips. "
+        "Include specific hotel names and working links from real booking websites (like Booking.com, Expedia, Hostelworld). "
+        "Include airline suggestions with real airline names and links (like Ryanair, KLM, easyJet, etc). "
+        "Be concise and only reply with a JSON object matching this structure with no explanations or extra text: "
+        f"{trip_plan_template} "
+        "Avoid markdown, quotes, or escape characters in your response. Respond with raw JSON only."
+    )
 
-      Transactions:
-      {transactions}
+    # Construct and add new user input
+    user_content = f"""
+    Context:
+    {message_history}
+    
+    Persona:
+    {persona_data}
 
-      Prompt:
-      {prompt}
-      """
-  message_history.append({"role": "system", "content": system_prompt})
-  message_history.append({"role": "user", "content": user_content})
+    Transactions:
+    {transactions}
 
-  completion = client.chat.completions.create(
-    model="meta/llama-3.3-70b-instruct",
-    messages=message_history,
-    temperature=0.2,
-    top_p=0.7,
-    max_tokens=1024,
-    stream=True,
-  )
+    Prompt:
+    {prompt}
+    """
 
-  try :
-      response_text = ""
-      for chunk in completion:
-        if chunk.choices[0].delta.content is not None:
-          response_text += chunk.choices[0].delta.content
+    message_history.append({"role": "system", "content": system_prompt})
+    message_history.append({"role": "user", "content": user_content})
 
-      parsed_dict = ast.literal_eval(response_text)
+    completion = client.chat.completions.create(
+        model="meta/llama-3.3-70b-instruct",
+        messages=message_history,
+        temperature=0.2,
+        top_p=0.7,
+        max_tokens=1024,
+        stream=True,
+    )
 
-      # Now it's a proper Python dict
-      print(parsed_dict)
+    try:
+        response_text = ""
+        for chunk in completion:
+            if chunk.choices[0].delta.content is not None:
+                response_text += chunk.choices[0].delta.content
 
-      return {"response": parsed_dict}
-  except :
-      return {"response" : None}
+        parsed_dict = ast.literal_eval(response_text)
+        print(parsed_dict)
+
+        return {"response": parsed_dict}
+
+    except Exception as e:
+        print("Parsing failed:", e)
+        return {"response": None, "message_history": message_history}
